@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="71d2be6a-ca1d-456a-9411-59fde62a534e"
+    Name="a7650099-0ee3-4b95-a0e4-7a73a5c2bee9"
     Publisher="CN=Thomas"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="71d2be6a-ca1d-456a-9411-59fde62a534e" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="a7650099-0ee3-4b95-a0e4-7a73a5c2bee9" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Cacheit</DisplayName>
+    <DisplayName>Cacheit2</DisplayName>
     <PublisherDisplayName>React Native for UWP</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -30,12 +30,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="Cacheit.App">
+      EntryPoint="Cacheit2.App">
       <uap:VisualElements
-        DisplayName="Cacheit"
+        DisplayName="Cacheit2"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Cacheit"
+        Description="Cacheit2"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

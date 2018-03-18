@@ -1,38 +1,41 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { View, Text, Platform, StyleSheet, TouchableOpacity, } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import { parseResponse } from './src/util/responseHelper';
+
+import TBButton from './src/components/TBButton';
+import DefaultScreen from './src/components/DefaultScreen';
+import SubredditPostView from './src/components/SubredditPostView';
 
 export default class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      resp: 'No text here yet',
+    };
+  }
+
+  onPress = (event) => {
+    const that = this;
+
+    /*fetch('./src/assets/mixed_response.json')
+      .then((resp) => that.handleResponse(resp))
+      .catch((error) => that.handleError(error));*/
+
+    var json = require('./src/assets/mixed_response.json');
+    this.handleResponse(parseResponse(json));
+  }
+
+  handleResponse = (response) => this.setState({resp: response});
+  handleError = (error) => alert("Error retrieving data: "+error);
+
   render() {
-    debugger;
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+      <View style={{ flex: 1 }}>
+        <View style={[styles.container, styles.bottom]} >
+          <SubredditPostView />
+        </View>
       </View>
     );
   }
@@ -41,18 +44,14 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center',
+
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  top: {
+    width: '100%',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  bottom: {
+    flex: 1,
+  }
 });
