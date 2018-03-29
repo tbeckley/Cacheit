@@ -1,41 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text, Platform, StyleSheet, TouchableOpacity, } from 'react-native';
 
-import { parseResponse } from './src/util/responseHelper';
-
-import TBButton from './src/components/TBButton';
-import DefaultScreen from './src/components/DefaultScreen';
-import SubredditPostView from './src/components/SubredditPostView';
+import TopView from './src/components/TopView';
+import BottomView from './src/components/BottomView';
 
 export default class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      resp: 'No text here yet',
-    };
+  constructor(props) {
+    super(props);
   }
-
-  onPress = (event) => {
-    const that = this;
-
-    /*fetch('./src/assets/mixed_response.json')
-      .then((resp) => that.handleResponse(resp))
-      .catch((error) => that.handleError(error));*/
-
-    var json = require('./src/assets/mixed_response.json');
-    this.handleResponse(parseResponse(json));
-  }
-
-  handleResponse = (response) => this.setState({resp: response});
-  handleError = (error) => alert("Error retrieving data: "+error);
 
   render() {
+    debugger;
     return (
-      <View style={{ flex: 1 }}>
-        <View style={[styles.container, styles.bottom]} >
-          <SubredditPostView />
-        </View>
+      <View style={{flex:1}}>
+        <TopView />
+        <BottomView />
       </View>
     );
   }
@@ -46,12 +25,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-
+    width: '100%',
   },
   top: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'yellow',
     width: '100%',
   },
   bottom: {
-    flex: 1,
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'green',
+    width: '100%',
   }
 });
