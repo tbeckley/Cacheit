@@ -1,24 +1,16 @@
 import actionTypes from './actions';
-import { newaddUniqueByProp, addUniqueByProp, removeByProp } from '../util/reducerHelpers';
+import { addUniqueByProp, removeByProp } from '../util/reducerHelpers';
 import R from 'ramda';
 
-export const initialState = {
-    content: {
-        posts: [],
-        subreddits: [],
-    },
-    app: {
-        settings: {},
-        navigation: {},
-    }
-}
-
-export function subreddits (state = initialState, action) {
+export function subreddits (state = [], action) {
+    debugger;
     switch(action.type) {
         case actionTypes.ADD_SUBREDDIT:
-            return R.evolve({ content: { subreddits: addUniqueByProp('name', action.payload) } }, state);;
+            return addUniqueByProp('name', action.payload, state);
         case actionTypes.REMOVE_SUBREDDIT:
-            return R.evolve({ content: { subreddits: removeByProp('name', action.payload) } }, state);
+            const x =  removeByProp('name', action.payload, state);
+            debugger;
+            return x;
         default:
             return state;
     }

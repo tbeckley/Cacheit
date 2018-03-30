@@ -1,58 +1,60 @@
-import React, {Component} from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Switch } from 'react-native';
 import styles from '../assets/style/commonStyle';
-
-import { reducer, initialState } from '../store/reducers.js';
+import { connect } from 'react-redux';
 import actionTypes from '../store/actions';
 
-export default class TopView extends Component {
+function mapStateToProps(state) {
+    return {
+        subs: state.content.subreddits,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addSubreddit: payload => dispatch({ type: actionTypes.ADD_SUBREDDIT, payload }),
+        removeSubreddit: payload => dispatch({ type: actionTypes.REMOVE_SUBREDDIT, payload }),
+    };
+}
+
+class TopView extends Component {
     constructor() {
         super();
+        this.state = { name: '', comments: false };
     }
 
-    do_shit() {
-        console.log("Hello!");
-        const cs = console.log;
-        let state = initialState;
-        const addpf = {
-            type: actionTypes.ADD_SUBREDDIT,
-            payload: [{
-                name: 'personalfinance',
-                comments: true,
-            }]
-        }
-        state = reducer(state, addpf);
-        const addla = {
-            type: actionTypes.ADD_SUBREDDIT,
-            payload: [{
-                name: 'legaladvice',
-                comments: true,
-            }]
-        }
-        state = reducer(state, addla);
-        const addp2 = {
-            type: actionTypes.ADD_SUBREDDIT,
-            payload: [{
-                name: 'personalfinance',
-                comments: false,
-            }]
-        }
-        state = reducer(state, addp2);
-        const removela = {
-            type: actionTypes.REMOVE_SUBREDDIT,
-            payload: 'legaladvice',
-        }
-        state = reducer(state, removela);
-        cs(state.content.subreddits);
+    addSub = () => {
+        const { name, comments } = this.state;
+        this.props.addSubreddit([{ name, comments }]);
+    }
+    removeSub = () => {
+        const { name } = this.state;
+        this.props.removeSubreddit([ name ]);
     }
 
     render() {
-        this.do_shit();
-        alert("Hello World!");
-        return(
-            <View style={[styles.container, styles.red]}>
-                <Text> Top </Text>
-            </View>
+        return (
+            <View style={styles.container}>
+                <View style={[styles.container, styles.full, styles.pink]}>
+                    <View>
+                        <TouchableOpacity onPress={this.addSub}>
+                            <Text>Add Subreddit</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.removeSub}>
+                            <Text>Remove Subreddit</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <TextInput onChangeText={name => this.setState({ name })} />
+                        <Switch onValueChange={comments => this.setState({ comments })} value={this.state.comments} />
+                    </View>
+                </View >
+                <View style={[styles.container, styles.full, styles.yellow]}>
+                    <Text>{JSON.stringify(this.props.subs)}</Text>
+                </View >
+            </View >
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopView);

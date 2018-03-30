@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        flexDirection: 'column',
     },
     red: {
         backgroundColor: 'red',
@@ -17,6 +18,13 @@ const styles = StyleSheet.create({
     },
     blue: {
         backgroundColor: 'blue',
+    },
+    pink: {
+        backgroundColor: 'pink',
+    },
+    full: {
+        width: '100%',
+        height: '100%',
     }
 });
 

@@ -11,10 +11,10 @@ export default class FullColour extends Component {
             {
                 this.props.colours.map((colour, key) => {
                     return (
-                        <View key={key} style={[styles.container, {backgroundColor: colour}]}>
+                        <View key={key} style={[styles.container, { backgroundColor: colour }]}>
                             <Text style={styles.text}>{capitalizeFirst(colour)}</Text>
                         </View>
-                    )
+                    );
                 })
             }
             </View>

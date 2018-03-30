@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import { View, Text, Platform, StyleSheet, TouchableOpacity, } from 'react-native';
+import createStore from './src/store/configureStore';
+import { Provider } from 'react-redux';
 
 import TopView from './src/components/TopView';
 import BottomView from './src/components/BottomView';
 
+const store = createStore();
+
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
-    debugger;
     return (
-      <View style={{flex:1}}>
-        <TopView />
-        <BottomView />
+      <View style={{ flex:1 }}>
+        <Provider store={store}>
+          <View style={{ flex:1 }}>
+            <TopView />
+          </View>
+        </Provider>
       </View>
     );
   }
