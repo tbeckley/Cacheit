@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch } from 'react-native';
-import styles from '../assets/style/commonStyle';
+import styles from '../../assets/style/commonStyle';
 import { connect } from 'react-redux';
-import actionTypes from '../store/actions';
+import actionTypes from '../../store/actions';
 
 function mapStateToProps(state) {
     return {

@@ -1,21 +1,31 @@
+import './src/conf/ReactotronConfig';
 import React, { Component } from 'react';
-import { View, Text, Platform, StyleSheet, TouchableOpacity, } from 'react-native';
-import createStore from './src/store/configureStore';
+import { View, Text, Platform, StyleSheet, TouchableOpacity } from 'react-native';
+
 import { Provider } from 'react-redux';
 
-import TopView from './src/components/TopView';
-import BottomView from './src/components/BottomView';
+import TopView from './src/components/views/TopView';
+import BottomView from './src/components/views/BottomView';
 
-const store = createStore();
+import BaseNavigator from './src/nav/routes';
+
+import configureStore from './src/store/configureStore';
+const store = configureStore();
+
+import './src/util/dev/testCode';
 
 export default class App extends Component {
+  constructor () {
+    super();
+    let x = 'haha yes';
+  }
 
   render() {
     return (
       <View style={{ flex:1 }}>
         <Provider store={store}>
           <View style={{ flex:1 }}>
-            <TopView />
+            <BaseNavigator />
           </View>
         </Provider>
       </View>

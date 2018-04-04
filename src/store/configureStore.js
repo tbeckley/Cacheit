@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux';
+import Reactotron from 'reactotron-react-native';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { subreddits } from './reducers';
 
 const initialState = {
@@ -15,16 +16,26 @@ const settings = (state, action) => state || {};
 const navigation = (state, action) => state || {};
 const posts = (state, action) => state || [];
 
-const content = combineReducers({ subreddits, posts });
-
-const reducerObject = {
-    content,
+const reducersMap = {
+    content: combineReducers({ subreddits, posts }),
     settings,
     navigation
 };
 
-const rootReducer = combineReducers(reducerObject);
+const rootReducer = combineReducers(reducersMap);
 
-export default function configureStore() {
-    return createStore(rootReducer, initialState);
+// Reactotron does not currently support creating store without middleware so I need some dummy middleware.
+const crashReporter = store => next => action => {
+    try {
+         return next(action);
+    }
+    catch (err) {
+        console.error('Caught an exception!', err); // eslint-disable-line
+    }
 };
+
+const middlewares = [crashReporter];
+
+const storeFunc = __DEV__ ? Reactotron.createStore : createStore;
+export default () => storeFunc(rootReducer, initialState, compose(applyMiddleware(...middlewares)));
+

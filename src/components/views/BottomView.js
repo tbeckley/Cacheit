@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import FullColour from '../util/dev/FullColour';
+import FullColour from '../../util/dev/FullColour';
 
 export default class BottomView extends Component {
 
