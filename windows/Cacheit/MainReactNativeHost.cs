@@ -3,11 +3,11 @@ using ReactNative.Modules.Core;
 using ReactNative.Shell;
 using System.Collections.Generic;
 
-namespace Cacheit2
+namespace Cacheit
 {
     class MainReactNativeHost : ReactNativeHost
     {
-        public override string MainComponentName => "Cacheit2";
+        public override string MainComponentName => "Cacheit";
 
 #if !BUNDLE || DEBUG
         public override bool UseDeveloperSupport => true;

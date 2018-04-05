@@ -7,8 +7,8 @@
     <ProjectGuid>{5a21aa64-bdf7-4aa5-a29f-cba5da5e5335}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cacheit2</RootNamespace>
-    <AssemblyName>Cacheit2</AssemblyName>
+    <RootNamespace>Cacheit</RootNamespace>
+    <AssemblyName>Cacheit</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
@@ -16,7 +16,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Cacheit2_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Cacheit_TemporaryKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>094BF3B169C4B852D972113B8081D413FE17EE34</PackageCertificateThumbprint>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <DependencyConfiguration>Debug</DependencyConfiguration>
@@ -192,7 +192,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Cacheit2_TemporaryKey.pfx" />
+    <None Include="Cacheit_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />

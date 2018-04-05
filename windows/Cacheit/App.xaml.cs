@@ -10,7 +10,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Cacheit2
+namespace Cacheit
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

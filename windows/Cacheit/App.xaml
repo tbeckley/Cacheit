@@ -1,8 +1,8 @@
 <Application
-    x:Class="Cacheit2.App"
+    x:Class="Cacheit.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Cacheit2"
+    xmlns:local="using:Cacheit"
     RequestedTheme="Light">
 
 </Application>
