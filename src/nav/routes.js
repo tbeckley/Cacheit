@@ -33,7 +33,7 @@ const baseNavigator = TabNavigator({
     [RouteNames.SETTINGS]: { screen: SettingsView },
     },
     {
-        //OPTIONS HO HERE
+        // OPTIONS GO HERE
     }
 );
 

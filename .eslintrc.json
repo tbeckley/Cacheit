@@ -29,6 +29,8 @@
         "no-multiple-empty-lines": 2,
         "no-unreachable": 2,
         "no-unsafe-negation":2,
+        "no-undef": 2,
+        "no-undef-init": 2,
         "no-useless-constructor": 2,
         "no-var": 2,
         "object-curly-spacing": ["error", "always"],
@@ -41,5 +43,8 @@
         "space-before-blocks": 2,
         "space-infix-ops": 2,
         "spaced-comment": 2
+    },
+    "globals": {
+        "__DEV__": true
     }
 }

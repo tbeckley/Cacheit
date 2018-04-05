@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
 
 const capitalizeFirst = word =>  word.charAt(0).toUpperCase() + word.slice(1);
@@ -13,11 +14,12 @@ export default class FullColour extends Component {
         );
     }
     render() {
-        const isArray = (typeof this.props.colours) === 'array';
+        const { colours } = this.props;
+        const isArray = (typeof colours) === 'array';
         return (
             <View style={styles.container}>
             {
-                isArray ? this.props.colours.map(this._getColour) : this._getColour(0, this.props.colours)
+                isArray ? colours.map(this._getColour) : this._getColour(0, this.props.colours)
             }
             </View>
         );

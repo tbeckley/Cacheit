@@ -26,7 +26,7 @@ namespace Cacheit2
         public App()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize=new Size(600, 800);
+            ApplicationView.PreferredLaunchViewSize=new Size(400, 800);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
             this.Suspending += OnSuspending;
