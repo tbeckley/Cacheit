@@ -15,26 +15,28 @@ export const RouteNames = {
     MAINVIEW: 'MAINVIEW',
 };
 
-export const stackNavRoutes = {
+const stackNavRoutes = {
     [RouteNames.SUBREDDITS]: { screen: SubredditsView },
     [RouteNames.POSTS]: { screen: PostsView },
     [RouteNames.COMMENTS]: { screen: CommentsView },
 };
 
-const stackNavigator = StackNavigator(
-    stackNavRoutes,
-    {
-        initialRouteName: RouteNames.SUBREDDITS
-    }
-);
+const stackNavOptions = {
+    initialRouteName: RouteNames.SUBREDDITS,
+};
 
-const baseNavigator = TabNavigator({
+const stackNavigator = StackNavigator(stackNavRoutes, stackNavOptions);
+
+const baseNavOptions = {
+    initialRouteName: RouteNames.MAINVIEW,
+};
+
+const baseNavRoutes = {
     [RouteNames.MAINVIEW]: stackNavigator,
     [RouteNames.SETTINGS]: { screen: SettingsView },
-    },
-    {
-        // OPTIONS GO HERE
-    }
-);
+};
+
+const baseNavigator = TabNavigator(baseNavRoutes, baseNavOptions);
+
 
 export default baseNavigator;

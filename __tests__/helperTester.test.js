@@ -15,10 +15,10 @@ const before = [
     }
 ];
 
-const toAdd=[{
+const toAdd = [{
     name: 'personalFinance',
     comments: false,
-}]
+}];
 
 const result = [
     {

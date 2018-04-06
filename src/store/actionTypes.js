@@ -1,0 +1,4 @@
+export default {
+    ADD_SUBREDDIT: 'ADD_SUBREDDIT',
+    REMOVE_SUBREDDIT: 'REMOVE_SUBREDDIT',
+};

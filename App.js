@@ -15,10 +15,6 @@ const store = configureStore();
 import './src/util/dev/testCode';
 
 export default class App extends Component {
-  constructor () {
-    super();
-    let x = 'haha yes';
-  }
 
   render() {
     return (
