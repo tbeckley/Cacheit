@@ -1,9 +1,9 @@
-const R = require('ramda');
+import R from 'ramda';
 
-const desiredProperties = ['name', 'title', 'author', 'selftext', 'score', 'created_utc']; // Add more attributes later if need be
+const desiredProperties = ['id', 'title', 'author', 'selftext', 'score']; // Add more attributes later if need be
+
 const filterOnlySelf = R.filter(post => post.data.is_self);
 const getDesiredProperties = R.pick(desiredProperties);
 const extractData = R.map(post => getDesiredProperties(post.data));
 const parseFilter = R.pipe(filterOnlySelf, extractData);
-
 export const parseSubreddit = subredditData => parseFilter(subredditData.data.children);

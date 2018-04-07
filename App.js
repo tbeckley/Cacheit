@@ -1,4 +1,4 @@
-import './src/conf/ReactotronConfig';
+import './src/config/ReactotronConfig';
 import React, { Component } from 'react';
 import { View, Text, Platform, StyleSheet, TouchableOpacity } from 'react-native';
 
