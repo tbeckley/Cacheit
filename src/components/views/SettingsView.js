@@ -6,6 +6,9 @@ import { routeNames } from '../../nav/routes';
 import MagicButton from '../../util/dev/MagicButton';
 import actions from '../../store/actions';
 
+import { parseSubreddit } from '../../util/responseHelper';
+import JSONData from '../../assets/data/sample_response.json';
+
 function mapStateToProps(state) {
     return {
         subs: state.content.subreddits,
@@ -19,15 +22,12 @@ function mapDispatchToProps(dispatch, ownProps) {
     };
 }
 
-const subreddits = ['personalfinance','legaladvice','sysadmin'];
 
 class SettingsView extends Component {
 
     magicPress = (event) => {
-        const { addSub, removeSub } = this.props;
-        subreddits.forEach(sub=> {
-            addSub(sub);
-        });
+        const y = parseSubreddit(JSONData);
+        debugger;
     }
 
     render() {

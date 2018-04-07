@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { RouteNames } from '../../nav/routes.js';
+import actions from '../../store/actions';
 
 function mapStateToProps(state) {
     return {
@@ -10,7 +11,20 @@ function mapStateToProps(state) {
     };
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
+    };
+}
+
 class SettingsView extends Component {
+    constructor(props) {
+        super(props);
+        const { addSub } = this.props;
+        addSub('personalFinance', false);
+        addSub('legalAdvice', true);
+    }
+
     goToPosts() {
         if (this.props.navigation) {
             this.props.navigation.navigate({ routeName: RouteNames.POSTS });
@@ -45,4 +59,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps)(SettingsView);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
