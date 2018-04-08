@@ -1,35 +1,33 @@
 import R from 'ramda';
 import { makeRequest } from './networkHelper';
 import { parseSubreddit } from './responseHelper';
-import failureTypes from '../constants';
+import { failureTypes } from '../constants';
 import actions from '../store/actions';
 
-const defaultCount = 100;
-const getURL = (subredditName, count = defaultCount) => `https://www.reddit.com/r/${subredditName}.json?count=${count}`
+const defaultCount = 25;
+const getURL = (subredditName, count = defaultCount) => `https://www.reddit.com/r/${subredditName}/hot.json?limit=${count - 2}`;
 
 export function fetchSubreddit(subreddit, dispatch) {
-    const { name, fetchedUTC } = subreddit;
+    const name = (typeof subreddit === 'string') ? subreddit : subreddit.name;
+    const fetchedUTC = subreddit.fetchedUTC || null;
 
     function onSuccess (data) {
-        // null ? true : greater
-        const newerThanFetched = R.ifElse(R.isNull, R.T, R.gte(dateCreated));
-        const parsedData = parseSubreddit(data);
-        const validData = R.filter(newerThanFetched, R.map(R.prop('dateCreated'), parsedData));
-        dispatch(actions.ADD_SUBREDDIT_DATA(validData));
+        const parsedData = parseSubreddit(data); // Get unfiltered data out of response
+        const validData = R.filter(R.propSatisfies(R.lte(fetchedUTC), 'created_utc'), parsedData); // Get posts submitted since I last requested
+        dispatch(actions.addSubredditData(subreddit, validData));
     }
-    function onFailure(reason) { 
+
+    function onFailure(reason, url) {
         // TODO: Handle intelligent error reporting
         switch (reason) {
-            case failureTypes.OFFLINE:      console.log(`Offline at: ${new Date()}`);
+            case failureTypes.OFFLINE:      console.log(`Offline at: ${new Date()}`); // eslint-disable-line
                                             break;
-            case failureTypes.SITE_DOWN:    console.log(`Site is down at: ${new Date()}`);
+            case failureTypes.SITE_DOWN:    console.log(`Site ${url} is down at: ${new Date()}`); // eslint-disable-line
                                             break;
             case failureTypes.OTHER:
-            default:                        console.log('Other Error');
+            default:                        console.log('Other Error'); // eslint-disable-line
         }
     }
 
     makeRequest(getURL(name), onSuccess, onFailure);
 }
-
-

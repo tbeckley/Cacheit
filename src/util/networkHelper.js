@@ -1,9 +1,19 @@
 import { NetInfo } from 'react-native';
+import { failureTypes } from '../constants';
 
-const always_on_url = 'www.google.ca';
+const always_on_url = 'https://www.httpbin.org/ip';
 
 export async function makeRequest (url, onSuccess, onFailure) {
-    if(!NetInfo.isConnected()) return onFailure(failureTypes.OFFLINE); // Sanity check
-    if((await fetch(always_on_url)).status !== 200) return onFailure(failureTypes.OFFLINE); // Internet check
-    fetch(url).then(onSuccess).error((error) => onFailure(failureTypes.SITE_DOWN)); // Site down or not
+    let failure = failureTypes.OFFLINE;
+    try {
+        await fetch(always_on_url);
+        failure = failureTypes.SITE_DOWN;
+        // const result = await fetch(url);
+        const result = require('../assets/data/sample_response.json');
+        failure = failureTypes.OTHER;
+        onSuccess(result);
+    }
+    catch(err) {
+        onFailure(failure, url);
+    }
 }

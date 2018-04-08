@@ -3,10 +3,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { subreddits } from './reducers';
 
 const initialState = {
-    content: {
-        posts: [],
-        subreddits: [],
-    },
+    subreddits: [],
     settings: {},
     navigation: {},
 };
@@ -14,15 +11,10 @@ const initialState = {
 // Dummy reducers for now
 const settings = (state, action) => state || {};
 const navigation = (state, action) => state || {};
-const posts = (state, action) => state || [];
 
-const reducersMap = {
-    content: combineReducers({ subreddits, posts }),
-    settings,
-    navigation
-};
+const reducersMap = { subreddits, settings, navigation };
 
-const rootReducer = combineReducers(reducersMap);
+const rootReducer = combineReducers(reducersMap, initialState);
 
 // Reactotron does not currently support creating store without middleware so I need some dummy middleware.
 const crashReporter = store => next => action => {

@@ -7,7 +7,7 @@ import actions from '../../store/actions';
 
 function mapStateToProps(state) {
     return {
-        subs: state.content.subreddits,
+        subs: state.subreddits,
     };
 }
 
@@ -21,8 +21,8 @@ class SettingsView extends Component {
     constructor(props) {
         super(props);
         const { addSub } = this.props;
-        addSub('personalFinance', false);
-        addSub('legalAdvice', true);
+        addSub('personalfinance', false);
+        addSub('legaladvice', true);
     }
 
     goToPosts() {

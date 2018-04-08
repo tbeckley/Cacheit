@@ -6,7 +6,7 @@ import actionTypes from '../../store/actionTypes';
 
 function mapStateToProps(state) {
     return {
-        subs: state.content.subreddits,
+        subs: state.subreddits,
     };
 }
 

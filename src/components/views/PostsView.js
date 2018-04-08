@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
     return {
-        subs: state.content.subreddits,
+        subs: state.subreddits,
     };
 }
 

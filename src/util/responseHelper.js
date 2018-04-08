@@ -1,9 +1,10 @@
 import R from 'ramda';
 
-const desiredProperties = ['id', 'title', 'author', 'selftext', 'score']; // Add more attributes later if need be
+// Properties to take from the repsonse. Simplfies stored objects
+const desiredProperties = ['name', 'title', 'author', 'selftext', 'score', 'created_utc'];
 
-const filterOnlySelf = R.filter(post => post.data.is_self);
-const getDesiredProperties = R.pick(desiredProperties);
-const extractData = R.map(post => getDesiredProperties(post.data));
-const parseFilter = R.pipe(filterOnlySelf, extractData);
-export const parseSubreddit = subredditData => parseFilter(subredditData.data.children);
+const getDataFromResponse = R.pipe(R.prop('_bodyText'), JSON.parse, R.path(['data', 'children']));
+const filterOnlySelf = R.filter(R.path(['data', 'is_self'])); // Strip out text and link posts
+const getDesiredProperties = R.pick(desiredProperties); // Only get properties I want
+const extractData = R.map(R.pipe(R.prop('data'), getDesiredProperties));
+export const parseSubreddit = R.pipe(getDataFromResponse, filterOnlySelf, extractData);

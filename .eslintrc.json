@@ -47,6 +47,8 @@
     "globals": {
         "__DEV__": true,
         "test": true,
-        "expect": true
+        "expect": true,
+        "fetch": true,
+        "toLowerCase": true
     }
 }

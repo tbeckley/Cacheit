@@ -5,29 +5,32 @@ import { connect } from 'react-redux';
 import { routeNames } from '../../nav/routes';
 import MagicButton from '../../util/dev/MagicButton';
 import actions from '../../store/actions';
-
-import { parseSubreddit } from '../../util/responseHelper';
-import JSONData from '../../assets/data/sample_response.json';
+import { fetchSubreddit } from '../../util/requestHelper';
 
 function mapStateToProps(state) {
     return {
-        subs: state.content.subreddits,
+        subs: state.subreddits,
     };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
     return {
+        fetchSub: sub => fetchSubreddit(sub, dispatch),
         addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
-        removeSub: (sub) => dispatch(actions.removeSubreddit(sub)),
     };
 }
-
 
 class SettingsView extends Component {
 
+    constructor(props) {
+        super(props);
+        const { addSub } = this.props;
+        addSub('personalfinance', false);
+        addSub('legalAdvice', true);
+    }
+    
     magicPress = (event) => {
-        const y = parseSubreddit(JSONData);
-        debugger;
+        this.props.fetchSub('personalfinance');
     }
 
     render() {
