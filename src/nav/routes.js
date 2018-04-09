@@ -28,7 +28,7 @@ const stackNavOptions = {
 const stackNavigator = StackNavigator(stackNavRoutes, stackNavOptions);
 
 const baseNavOptions = {
-    initialRouteName: RouteNames.SETTINGS,
+    initialRouteName: RouteNames.MAINVIEW,
 };
 
 const baseNavRoutes = {

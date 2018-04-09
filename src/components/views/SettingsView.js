@@ -25,10 +25,8 @@ class SettingsView extends Component {
     constructor(props) {
         super(props);
         const { addSub } = this.props;
-        addSub('personalfinance', false);
-        addSub('legalAdvice', true);
     }
-    
+
     magicPress = (event) => {
         this.props.fetchSub('personalfinance');
     }

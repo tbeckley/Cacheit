@@ -9,7 +9,7 @@ export function subreddits (state = [], action) {
         case actionTypes.REMOVE_SUBREDDIT:
             return removeByProp('name', action.payload, state);
         case actionTypes.ADD_SUBREDDIT_POSTS:
-            return addPostsForSubreddit(action.payload.subreddit, action.payload.posts, state); // eslint-disable-line
+            return addPostsForSubreddit(action.payload.subreddit, action.payload.posts, state);
         default:
             return state;
     }

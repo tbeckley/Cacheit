@@ -1,46 +1,68 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 
 import { RouteNames } from '../../nav/routes.js';
 import actions from '../../store/actions';
+import { fetchSubreddit } from '../../util/requestHelper';
 
 function mapStateToProps(state) {
     return {
-        subs: state.subreddits,
+        subreddits: state.subreddits,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
+        fetchSub: sub => fetchSubreddit(sub, dispatch),
     };
 }
 
 class SettingsView extends Component {
+
+    static navigationOptions = {
+        header: null,
+    };
+
     constructor(props) {
         super(props);
-        const { addSub } = this.props;
+        const { addSub, fetchSub } = this.props;
         addSub('personalfinance', false);
-        addSub('legaladvice', true);
+        addSub('legalAdvice', true);
+        fetchSub('personalfinance');
     }
 
-    goToPosts() {
+    goToPosts = (subredditName) => {
         if (this.props.navigation) {
-            this.props.navigation.navigate({ routeName: RouteNames.POSTS });
+            this.props.navigation.navigate({ routeName: RouteNames.POSTS, params: { subredditName } });
         }
+    }
+
+    generateCard = (subreddit, key) =>
+    {
+        const { name } = subreddit;
+        const cardStyle = {
+            paddingVertical: 20,
+            padding: 15,
+            justifyContent: 'center',
+            paddingLeft: 50,
+            width: '100%',
+            backgroundColor: (key % 2 === 0) ? '#B3B3B3' : '#F2F2F2'
+        };
+
+        return (
+            <TouchableOpacity key={key} style={cardStyle} onPress={() => this.goToPosts(subreddit.name)}>
+                    <Text style={styles.subredditName}>/r/{ name }</Text>
+            </TouchableOpacity>
+        );
     }
 
     render() {
         return(
-            <View style={styles.container}>
-                <Text style={styles.text}>
-                    This is a subreddits page. It would presumably list subreddits if it came to that.
-                </Text>
-                <TouchableOpacity onPress={() => this.goToPosts()}>
-                    <Text style={styles.text}>Go to posts</Text>
-                </TouchableOpacity>
-            </View>
+            <ScrollView style={styles.container}>
+                { this.props.subreddits.map(this.generateCard) }
+            </ScrollView>
         );
     }
 }
@@ -48,13 +70,11 @@ class SettingsView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         flexDirection: 'column',
+        backgroundColor: '#66b3ff',
     },
-    text: {
-        margin: 10,
-        fontSize: 16,
+    subredditName: {
+        fontSize: 22,
         fontFamily: 'Roboto',
     }
 });

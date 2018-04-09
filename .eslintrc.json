@@ -49,6 +49,7 @@
         "test": true,
         "expect": true,
         "fetch": true,
-        "toLowerCase": true
+        "toLowerCase": true,
+        "toUpperCase": true
     }
 }
