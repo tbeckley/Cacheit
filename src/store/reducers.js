@@ -14,3 +14,11 @@ export function subreddits (state = [], action) {
             return state;
     }
 }
+
+export function settings (state = {}, action) {
+    return state;
+}
+
+export function navigation (state = {}, action) {
+    return state;
+}

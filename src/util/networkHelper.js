@@ -9,7 +9,6 @@ export async function makeRequest (url, onSuccess, onFailure) {
         await fetch(always_on_url);
         failure = failureTypes.SITE_DOWN;
         const result = await fetch(url);
-        // const result = require('../assets/data/sample_response.json');
         failure = failureTypes.OTHER;
         onSuccess(result);
     }

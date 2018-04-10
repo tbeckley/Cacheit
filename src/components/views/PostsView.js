@@ -3,7 +3,6 @@ import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-nati
 import { connect } from 'react-redux';
 import { RouteNames } from '../../nav/routes.js';
 import R from 'ramda';
-import Swiper from 'react-native-swiper';
 
 function mapStateToProps(state, ownProps) {
     const subredditName = ownProps.navigation.state.params.subredditName;

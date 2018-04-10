@@ -27,10 +27,7 @@ class SettingsView extends Component {
 
     constructor(props) {
         super(props);
-        const { addSub, fetchSub } = this.props;
-        addSub('personalfinance', false);
-        addSub('legalAdvice', true);
-        fetchSub('personalfinance');
+        const a = 'x'; // Do the thing
     }
 
     goToPosts = (subredditName) => {

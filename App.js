@@ -1,16 +1,15 @@
 import './src/config/ReactotronConfig';
 import React, { Component } from 'react';
-import { View, Text, Platform, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { AsyncStorage, View, Text, Platform, StyleSheet, TouchableOpacity } from 'react-native';
 import { Provider } from 'react-redux';
 
-import TopView from './src/components/views/TopView';
-import BottomView from './src/components/views/BottomView';
-
 import BaseNavigator from './src/nav/routes';
-
 import configureStore from './src/store/configureStore';
-const store = configureStore();
+import { loadStateFromMemory } from './src/util/storageHelper';
+
+let store;
+loadStateFromMemory(state => { store = configureStore(state); });
+if(!store) store = configureStore();
 
 import './src/util/dev/testCode';
 

@@ -3,3 +3,7 @@ export const failureTypes = {
     SITE_DOWN: 'site_down',
     OTHER: 'other',
 };
+
+export const keys = {
+    STATE: '@CACHEIT:STATE',
+};
