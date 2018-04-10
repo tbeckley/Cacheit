@@ -1,7 +1,8 @@
 import Reactotron from 'reactotron-react-native';
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { subreddits, settings, navigation } from './reducers';
-import { crashReporter, storeWriter } from './middlewares';
+import middlewares from './middlewares';
+import actionTypes from './actionTypes';
 
 const defaultState = {
     subreddits: [],
@@ -9,10 +10,22 @@ const defaultState = {
     navigation: {},
 };
 
-const rootReducer = combineReducers({ subreddits, settings, navigation }, defaultState);
+const appReducer = combineReducers({ subreddits, settings, navigation }, defaultState);
 
-const middlewares = [crashReporter, storeWriter];
+// Handle global actions such as clear and saturate state
+function rootReducer (state, action) {
+    switch (action.type) {
+        case actionTypes.REPLACE_STATE:
+            Reactotron.log({ message: 'Restoring from async storage.', value: state });
+            return action;
+        case actionTypes.WIPE_STATE:
+            Reactotron.log({ message: 'Wiping State' }); // Debug only
+            return defaultState;
+        default:
+            return appReducer(state, action);
+    }
+}
 
 const storeFunc = __DEV__ ? Reactotron.createStore : createStore;
-export default (initState) => storeFunc(rootReducer, initState ? initState : defaultState, compose(applyMiddleware(...middlewares)));
+export default () => storeFunc(rootReducer, defaultState, middlewares);
 

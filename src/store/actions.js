@@ -13,6 +13,10 @@ const actions = {
         type: actionTypes.ADD_SUBREDDIT_POSTS,
         payload: { subreddit, posts }
     }),
+    writeState: (state) => ({
+        type: actionTypes.REPLACE_STATE,
+        payload: state
+    })
 };
 
 export default actions;

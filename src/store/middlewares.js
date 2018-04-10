@@ -1,8 +1,8 @@
 import { writeStateToMemory } from '../util/storageHelper';
+import { compose, applyMiddleware } from 'redux';
 
 // Gracefully handle crashes
-export const crashReporter = store => next => action => {
-
+const crashReporter = store => next => action => {
     try {
          next(action);
     }
@@ -11,8 +11,11 @@ export const crashReporter = store => next => action => {
     }
 };
 
-// Intelligently cache state
-export const storeWriter = store => next => action => {
-    next(action);
-    writeStateToMemory(store.getState());
+// Store state for offline
+const storeWriter = store => next => action => {
+    writeStateToMemory(next(action));
 };
+
+const middlewares = [crashReporter, storeWriter];
+
+export default compose(applyMiddleware(...middlewares));
