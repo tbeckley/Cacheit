@@ -5,11 +5,11 @@ import { Provider, connect } from 'react-redux';
 
 import BaseNavigator from './src/nav/routes';
 import configureStore from './src/store/configureStore';
-import { loadStateFromMemory } from './src/util/storageHelper';
+import { loadStateFromMemory, writeStateToMemory } from './src/util/storageHelper';
 import actions from './src/store/actions.js';
 
 const store = configureStore();
-loadStateFromMemory(state => store.dispatch(actions.writeState(state)));
+loadStateFromMemory(state => { store.dispatch(actions.replaceState(state)); });
 
 export default class App extends Component {
   render() {

@@ -16,10 +16,8 @@ const appReducer = combineReducers({ subreddits, settings, navigation }, default
 function rootReducer (state, action) {
     switch (action.type) {
         case actionTypes.REPLACE_STATE:
-            Reactotron.log({ message: 'Restoring from async storage.', value: state });
-            return action;
-        case actionTypes.WIPE_STATE:
-            Reactotron.log({ message: 'Wiping State' }); // Debug only
+            return action.payload || defaultState;
+        case actionTypes.RESET_STATE:
             return defaultState;
         default:
             return appReducer(state, action);

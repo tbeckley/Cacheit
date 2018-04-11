@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { AsyncStorage, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import TBIcon from '../TBIcon';
+import Reactotron from 'reactotron-react-native';
 import { connect } from 'react-redux';
-import { routeNames } from '../../nav/routes';
 import MagicButton from '../../util/dev/MagicButton';
+import NukeButton from '../../util/dev/NukeButton';
+import GrassButton from '../../util/dev/GrassButton';
 import actions from '../../store/actions';
-import { fetchSubreddit } from '../../util/requestHelper';
+
+import { loadStateFromMemory } from '../../util/storageHelper'
 
 function mapStateToProps(state) {
     return {
@@ -16,9 +18,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchSub: sub => fetchSubreddit(sub, dispatch),
         addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
-        causeError: () => dispatch({ type: 'ERROR' }),
+        resetState: () => dispatch(actions.resetState())
     };
 }
 
@@ -26,7 +27,7 @@ class SettingsView extends Component {
 
     constructor(props) {
         super(props);
-        const { addSub } = this.props;
+        const { addSub, wipeState } = this.props;
     }
 
     makeid = () => {
@@ -41,6 +42,17 @@ class SettingsView extends Component {
         addSub(this.makeid());
     }
 
+    nukePress = () => {
+        const { resetState } = this.props;
+        resetState();
+    }
+
+    grassPress = () => {
+        loadStateFromMemory((obj) => {
+            Reactotron.log({ message: 'Currently in memory', value: obj });
+        });
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -48,6 +60,8 @@ class SettingsView extends Component {
                     This is a settings page. It would presumably do something if it came to that.
                 </Text>
                 { __DEV__ && <MagicButton onPress={this.magicPress} /> }
+                { __DEV__ && <NukeButton onPress={this.nukePress} /> }
+                { __DEV__ && <GrassButton onPress={this.grassPress} /> }
                 <View style={{ flex: 1 }}>
                     <Text>
                         { JSON.stringify(this.props.reduxState) }

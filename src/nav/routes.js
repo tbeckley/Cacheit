@@ -1,7 +1,7 @@
+// Dependancies
 import { StackNavigator, TabNavigator } from 'react-navigation';
-import { View, Text } from 'react-native';
-import React from 'react';
 
+// Views
 import SubredditsView from '../components/views/SubredditsView';
 import PostsView from '../components/views/PostsView';
 import CommentsView from '../components/views/CommentsView';
@@ -37,6 +37,5 @@ const baseNavRoutes = {
 };
 
 const baseNavigator = TabNavigator(baseNavRoutes, baseNavOptions);
-
 
 export default baseNavigator;
