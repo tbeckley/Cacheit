@@ -16,6 +16,6 @@ export default class TBIcon extends Component {
 
 const defaultStyles = {
     iconStyle: {
-        fontSize: 16
+        fontSize: 24
     }
 };

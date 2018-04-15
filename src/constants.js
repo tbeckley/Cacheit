@@ -7,3 +7,8 @@ export const failureTypes = {
 export const keys = {
     STATE: '@CACHEIT:STATE',
 };
+
+export const limits = {
+    REDDIT_API_DELAY: 2000,
+    ASYNC_STORAGE_LIMIT: 1000,
+};

@@ -7,6 +7,7 @@ import PostsView from '../components/views/PostsView';
 import CommentsView from '../components/views/CommentsView';
 import SettingsView from '../components/views/SettingsView';
 
+// Route Names - Eventually move to separate file
 export const RouteNames = {
     SUBREDDITS: 'SUBREDDITS',
     POSTS: 'POSTS',
@@ -15,27 +16,18 @@ export const RouteNames = {
     MAINVIEW: 'MAINVIEW',
 };
 
+// Navigation
 const stackNavRoutes = {
     [RouteNames.SUBREDDITS]: { screen: SubredditsView },
     [RouteNames.POSTS]: { screen: PostsView },
     [RouteNames.COMMENTS]: { screen: CommentsView },
+    [RouteNames.SETTINGS]: { screen: SettingsView },
 };
 
 const stackNavOptions = {
     initialRouteName: RouteNames.SUBREDDITS,
 };
 
-const stackNavigator = StackNavigator(stackNavRoutes, stackNavOptions);
-
-const baseNavOptions = {
-    initialRouteName: RouteNames.SETTINGS,
-};
-
-const baseNavRoutes = {
-    [RouteNames.MAINVIEW]: stackNavigator,
-    [RouteNames.SETTINGS]: { screen: SettingsView },
-};
-
-const baseNavigator = TabNavigator(baseNavRoutes, baseNavOptions);
+const baseNavigator = StackNavigator(stackNavRoutes, stackNavOptions);
 
 export default baseNavigator;

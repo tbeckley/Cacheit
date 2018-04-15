@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { AsyncStorage, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Reactotron from 'reactotron-react-native';
 import { connect } from 'react-redux';
-import MagicButton from '../../util/dev/MagicButton';
-import NukeButton from '../../util/dev/NukeButton';
-import GrassButton from '../../util/dev/GrassButton';
+import DevButton from '../../util/dev/DevButton';
 import actions from '../../store/actions';
 
 import { loadStateFromMemory } from '../../util/storageHelper'
@@ -35,7 +33,7 @@ class SettingsView extends Component {
         const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         for(let i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
-      }
+    }
 
     magicPress = (event) => {
         const { addSub, fetchSub } = this.props;
@@ -53,15 +51,21 @@ class SettingsView extends Component {
         });
     }
 
+    getDevPanel = () => {
+        return (<View>
+                    <DevButton theme='grass' onPress={this.grassPress} />
+                    <DevButton theme='nuke' onPress={this.nukePress} />
+                    <DevButton theme='magic' onPress={this.magicPress} />
+                </View>);
+    }
+
     render() {
         return(
             <View style={styles.container}>
                 <Text style={styles.text}>
                     This is a settings page. It would presumably do something if it came to that.
                 </Text>
-                { __DEV__ && <MagicButton onPress={this.magicPress} /> }
-                { __DEV__ && <NukeButton onPress={this.nukePress} /> }
-                { __DEV__ && <GrassButton onPress={this.grassPress} /> }
+                { __DEV__ && this.getDevPanel() }
                 <View style={{ flex: 1 }}>
                     <Text>
                         { JSON.stringify(this.props.reduxState) }

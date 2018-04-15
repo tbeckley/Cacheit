@@ -6,6 +6,8 @@ import { RouteNames } from '../../nav/routes.js';
 import actions from '../../store/actions';
 import { fetchSubreddit } from '../../util/requestHelper';
 
+import SettingsButton from '../SettingsButton';
+
 function mapStateToProps(state) {
     return {
         subreddits: state.subreddits,
@@ -21,8 +23,11 @@ function mapDispatchToProps(dispatch) {
 
 class SettingsView extends Component {
 
-    static navigationOptions = {
-        header: null,
+    static navigationOptions = (thing) => {
+        return {
+            headerTitle: 'Cacheit',
+            headerRight: <SettingsButton navigation={thing.navigation} />,
+        };
     };
 
     constructor(props) {
