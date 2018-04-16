@@ -3,7 +3,7 @@ import actionTypes from './actionTypes.js';
 const actions = {
     addSubreddit: (name, comments = false) => ({
         type: actionTypes.ADD_SUBREDDIT,
-        payload: [{ name, comments, posts: [] }]
+        payload: [{ name: name.toLowerCase(), comments, posts: [], lastFetched: null }]
     }),
     removeSubreddit: (name) => ({
         type: actionTypes.REMOVE_SUBREDDIT,

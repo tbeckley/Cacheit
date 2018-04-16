@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import DevButton from '../../util/dev/DevButton';
 import actions from '../../store/actions';
 
-import { loadStateFromMemory } from '../../util/storageHelper'
+import { loadStateFromMemory } from '../../util/storageHelper';
 
 function mapStateToProps(state) {
     return {

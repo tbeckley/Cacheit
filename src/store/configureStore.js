@@ -7,10 +7,9 @@ import actionTypes from './actionTypes';
 const defaultState = {
     subreddits: [],
     settings: {},
-    navigation: {},
 };
 
-const appReducer = combineReducers({ subreddits, settings, navigation }, defaultState);
+const appReducer = combineReducers({ subreddits, settings }, defaultState);
 
 // Handle global actions such as clear and saturate state
 function rootReducer (state, action) {

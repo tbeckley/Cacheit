@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 
 import TBIcon from './TBIcon';
 import { RouteNames } from '../nav/routes';
@@ -8,7 +8,8 @@ import { RouteNames } from '../nav/routes';
 class SettingsButton extends Component {
 
     navToSettings = () => {
-        this.props.navigation.navigate({ routeName: RouteNames.SETTINGS });
+        const { navigation: { navigate } } = this.props;
+        navigate({ routeName: RouteNames.SETTINGS });
     }
 
     render() {
@@ -17,8 +18,8 @@ class SettingsButton extends Component {
 }
 
 const styles = {
-    marginRight: 10,
+    marginRight: 15,
     fontSize: 24,
 };
 
-export default SettingsButton;
+export default withNavigation(SettingsButton);

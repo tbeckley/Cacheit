@@ -12,9 +12,9 @@ const crashReporter = store => next => action => {
 };
 
 const debugReporter = store => next => action => {
-    let stateBefore = store.getState();
-    let returned = next(action);
-    let stateAfter = store.getState();
+    const stateBefore = store.getState();
+    const returned = next(action);
+    const stateAfter = store.getState();
 };
 
 // Store state for offline

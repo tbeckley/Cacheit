@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { addUniqueByProp, removeByProp, addPostsForSubreddit } from '../util/reducerHelpers';
+import { addUniqueByProp, removeByProp, addPostsForSubreddit } from '../util/reducerHelper';
 import R from 'ramda';
 
 export function subreddits (state = [], action) {
