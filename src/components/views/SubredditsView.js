@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet,
-        Text, TouchableOpacity, TextInput } from 'react-native';
+        Text, TouchableOpacity, TextInput, Switch } from 'react-native';
 import { connect } from 'react-redux';
 
 import { RouteNames } from '../../nav/routes.js';
 import actions from '../../store/actions';
 import { fetchSubreddit } from '../../util/requestHelper';
 import { getTimeAgo } from '../../util/timeHelper';
+
 
 import SettingsButton from '../SettingsButton';
 
@@ -28,7 +29,7 @@ class SubredditsView extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: 'Cacheit',
-            headerRight: <SettingsButton />,
+            headerRight: <SettingsButton navigation={navigation} />,
         };
     };
 
@@ -74,9 +75,13 @@ class SubredditsView extends Component {
             <View style={styles.container}>
                 <View style={styles.addSubredditContainer}>
                     <TextInput  onChangeText={subName => this.setState({ subName })}
+                                onSubmitEditing={this.addSubreddit}
                                 value={this.state.subName}
-                                style={styles.textContainer}
+                                style={styles.textInput}
                                 placeholder='Add another sub!' />
+                    <Text style={styles.text}>Comments:</Text>
+                    <Switch value={this.state.comments}
+                            onValueChange={comments => this.setState({ comments }) } />
                     <TouchableOpacity style={styles.textButton} onPress={this.addSubreddit}>
                         <Text>Add</Text>
                     </TouchableOpacity>
@@ -97,9 +102,12 @@ const styles = StyleSheet.create({
     },
     addSubredditContainer: {
         flexDirection: 'row',
+        alignItems: 'center',
     },
-    textContainer: {
-        flex: 1
+    textInput: {
+        flex: 1,
+        textAlignVertical: 'center',
+        marginRight: 5
     },
     textButton: {
         padding: 5,
@@ -107,12 +115,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    text: {
+        paddingRight: 10
+    },
     subredditName: {
         fontSize: 22,
         fontFamily: 'Roboto',
     },
     subredditCaption: {
-
     },
     cardStyle: {
         paddingVertical: 20,

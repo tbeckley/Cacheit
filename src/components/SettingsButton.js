@@ -8,8 +8,8 @@ import { RouteNames } from '../nav/routes';
 class SettingsButton extends Component {
 
     navToSettings = () => {
-        const { navigation: { navigate } } = this.props;
-        navigate({ routeName: RouteNames.SETTINGS });
+        const { navigation } = this.props;
+        navigation.navigate({ routeName: RouteNames.SETTINGS });
     }
 
     render() {
@@ -22,4 +22,4 @@ const styles = {
     fontSize: 24,
 };
 
-export default withNavigation(SettingsButton);
+export default SettingsButton;

@@ -2,7 +2,9 @@ import actionTypes from './actionTypes';
 import { addUniqueByProp, removeByProp, addPostsForSubreddit } from '../util/reducerHelper';
 import R from 'ramda';
 
-export function subreddits (state = [], action) {
+import { defaultState } from './configureStore';
+
+export function subreddits (state = defaultState.subreddits, action) {
     switch(action.type) {
         case actionTypes.ADD_SUBREDDIT:
             return addUniqueByProp('name', action.payload, state);
@@ -15,10 +17,12 @@ export function subreddits (state = [], action) {
     }
 }
 
-export function settings (state = {}, action) {
-    return state;
-}
-
-export function navigation (state = {}, action) {
+export function settings (state = defaultState.settings, action) {
+    switch(action.type) {
+        case actionTypes.TOGGLE_BACKGROUND_TASK:
+            return R.assocPath(['backgroundTask', 'isEnabled'], action.payload, state);
+        default:
+            return state;
+    }
     return state;
 }

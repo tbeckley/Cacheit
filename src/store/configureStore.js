@@ -4,9 +4,18 @@ import { subreddits, settings, navigation } from './reducers';
 import middlewares from './middlewares';
 import actionTypes from './actionTypes';
 
-const defaultState = {
+export const defaultState = {
     subreddits: [],
-    settings: {},
+    settings: {
+        backgroundTask: {
+            isEnabled: false,
+            fetchComments: false,
+            fetchOverCellular: false,
+            fetchOnBattery: true,
+            interval: 1500,
+            toFetch: 3,
+        }
+    },
 };
 
 const appReducer = combineReducers({ subreddits, settings }, defaultState);
@@ -23,6 +32,7 @@ function rootReducer (state, action) {
     }
 }
 
+// Enable reactotron state
 const storeFunc = __DEV__ ? Reactotron.createStore : createStore;
 export default () => storeFunc(rootReducer, defaultState, middlewares);
 

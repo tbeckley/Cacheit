@@ -1,76 +1,56 @@
 import React, { Component } from 'react';
-import { AsyncStorage, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import Reactotron from 'reactotron-react-native';
+import { View, StyleSheet, Text, Switch, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import DevButton from '../../util/dev/DevButton';
+import DevPanel from '../dev/DevPanel';
 import actions from '../../store/actions';
-
-import { loadStateFromMemory } from '../../util/storageHelper';
+import Well from '../Well';
 
 function mapStateToProps(state) {
     return {
-        subs: state.subreddits,
-        reduxState: state,
+        settings: state.settings
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
-        resetState: () => dispatch(actions.resetState())
+        toggleBackgroundTask: value => dispatch(actions.toggleBackgroundTask(value))
     };
 }
 
 class SettingsView extends Component {
-
-    constructor(props) {
-        super(props);
-        const { addSub, wipeState } = this.props;
+    tryToggleBackgroundTask = (value) => {
+        if(Platform.OS === 'ios' || Platform.OS === 'android') {
+            this.props.toggleBackgroundTask(value);
+        }
+        else {
+            alert('Background task not available on this platform'); // eslint-disable-line
+        }
     }
-
-    makeid = () => {
-        let text = '';
-        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for(let i = 0; i < 5; i++) text += possible.charAt(Math.floor(Math.random() * possible.length));
-        return text;
-    }
-
-    magicPress = (event) => {
-        const { addSub, fetchSub } = this.props;
-        addSub(this.makeid());
-    }
-
-    nukePress = () => {
-        const { resetState } = this.props;
-        resetState();
-    }
-
-    grassPress = () => {
-        loadStateFromMemory((obj) => {
-            Reactotron.log({ message: 'Currently in memory', value: obj });
-        });
-    }
-
-    getDevPanel = () => {
-        return (<View>
-                    <DevButton theme='grass' onPress={this.grassPress} />
-                    <DevButton theme='nuke' onPress={this.nukePress} />
-                    <DevButton theme='magic' onPress={this.magicPress} />
-                </View>);
-    }
-
     render() {
+        const { settings: { backgroundTask }, toggleBackgroundTask } = this.props;
         return(
             <View style={styles.container}>
                 <Text style={styles.text}>
                     This is a settings page. It would presumably do something if it came to that.
                 </Text>
-                { __DEV__ && this.getDevPanel() }
-                <View style={{ flex: 1 }}>
-                    <Text>
-                        { JSON.stringify(this.props.reduxState) }
-                    </Text>
-                </View>
+                <Well title={'Background Task'} >
+                    <View style={styles.row}>
+                        <Text>Enable background fetching</Text>
+                        <Switch value={backgroundTask.isEnabled}
+                                onValueChange={this.tryToggleBackgroundTask}
+                                style={styles.switch} />
+                    </View>
+                    { backgroundTask.isEnabled && <View>
+                            <View style={styles.row}>
+                            <Text>Fetch over cellular network</Text>
+                            <Switch value={backgroundTask.fetchOverCellular}
+                                    onValueChange={toggleBackgroundTask}
+                                    style={styles.switch} />
+                            </View>
+                        </View>
+                        }
+                </Well>
+                { __DEV__ && <DevPanel /> }
             </View>
         );
     }
@@ -79,14 +59,20 @@ class SettingsView extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         flexDirection: 'column',
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     text: {
         margin: 10,
         fontSize: 16,
         fontFamily: 'Roboto',
-    }
+    },
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);

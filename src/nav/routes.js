@@ -25,7 +25,7 @@ const stackNavRoutes = {
 };
 
 const stackNavOptions = {
-    initialRouteName: RouteNames.SUBREDDITS,
+    initialRouteName: RouteNames.SETTINGS,
 };
 
 const baseNavigator = StackNavigator(stackNavRoutes, stackNavOptions);

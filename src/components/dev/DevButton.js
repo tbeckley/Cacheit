@@ -13,7 +13,7 @@ export default class DevButton extends Component {
     render() {
         const { style, buttonText } = this.preset;
         return (
-            <View style={[globalStyle, style.button]}>
+            <View style={[globalStyle.obj, style.button]}>
                 <TouchableOpacity onPress={event => { this.props.onPress ?
                             this.props.onPress(event) :
                             this.handlePressDefault(event); }}>
@@ -25,7 +25,11 @@ export default class DevButton extends Component {
 }
 
 const globalStyle = StyleSheet.create({
-    margin: 3,
+    obj: {
+        width: '80%',
+        paddingVertical: 10,
+        marginTop: 2,
+    }
 });
 
 const presets = {
@@ -35,7 +39,6 @@ const presets = {
                 backgroundColor: 'orange',
                 borderWidth: 3,
                 borderRadius: 2,
-                padding: 3,
                 alignItems: 'center',
                 justifyContent: 'center',
             },
