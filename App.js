@@ -1,17 +1,20 @@
 import './src/config/ReactotronConfig';
 import React, { Component } from 'react';
-import { AsyncStorage, View, Text, Platform, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Platform, StyleSheet, TouchableOpacity } from 'react-native';
 import { Provider, connect } from 'react-redux';
 
 import BaseNavigator from './src/nav/routes';
 import configureStore from './src/store/configureStore';
-import { loadStateFromMemory, writeStateToMemory } from './src/util/storageHelper';
+import { loadStateFromMemory } from './src/util/storageHelper';
 import actions from './src/store/actions.js';
 
 const store = configureStore();
 loadStateFromMemory(state => { store.dispatch(actions.replaceState(state)); });
 
 export default class App extends Component {
+  componentDidMount () {
+  }
+
   render() {
     return (
       <View style={{ flex:1 }}>

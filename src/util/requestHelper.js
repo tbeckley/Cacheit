@@ -4,17 +4,38 @@ import { parseSubreddit } from './responseHelper';
 import { failureTypes } from '../constants';
 import actions from '../store/actions';
 
+import _ from 'underscore';
+
 const defaultCount = 25;
 const getURL = (subredditName, count = defaultCount) => `https://www.reddit.com/r/${subredditName}/hot.json?limit=${count - 2}`;
 
 export function fetchSubreddit(subreddit, dispatch) {
+    _fetchSingleSubreddit(subreddit, dispatch).then(posts => {
+        dispatch(actions.addSubredditData(subreddit, posts));
+    });
+}
+
+export function fetchMultipleSubreddits (subreddits, dispatch) {
+
+    const promises = subreddits.map(name => _fetchSingleSubreddit(name));
+
+    Promise.all(promises).then(values => {
+        const a = values;
+        debugger;
+    });
+}
+
+const myFunc = async val => {
+    return setTimeout(() => `${val}Finished`, 100);
+};
+
+function _fetchSingleSubreddit(subreddit) {
     const name = (typeof subreddit === 'string') ? subreddit : subreddit.name;
     const fetchedUTC = subreddit.fetchedUTC || null;
 
     function onSuccess (data) {
-        const parsedData = parseSubreddit(data); // Get unfiltered data out of response
-        const validData = R.filter(R.propSatisfies(R.lte(fetchedUTC), 'created_utc'), parsedData); // Get posts submitted since I last requested
-        dispatch(actions.addSubredditData(subreddit, validData));
+        const getValidData = R.filter(R.propSatisfies(R.lte(fetchedUTC), 'created_utc')); // Get posts submitted since I last requested
+        return getValidData(parseSubreddit(data)); // Get proper data from body
     }
 
     function onFailure(reason, url) {
@@ -29,5 +50,5 @@ export function fetchSubreddit(subreddit, dispatch) {
         }
     }
 
-    makeRequest(getURL(name), onSuccess, onFailure);
+    return makeRequest(getURL(name), onFailure).then(onSuccess);
 }

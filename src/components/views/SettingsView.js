@@ -19,7 +19,7 @@ function mapDispatchToProps(dispatch) {
 
 class SettingsView extends Component {
     tryToggleBackgroundTask = (value) => {
-        if(Platform.OS === 'ios' || Platform.OS === 'android') {
+        if(Platform.OS === 'ios' || Platform.OS === 'android' || __DEV__) {
             this.props.toggleBackgroundTask(value);
         }
         else {

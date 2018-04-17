@@ -7,6 +7,8 @@ import { loadStateFromMemory } from '../../util/storageHelper';
 import actions from '../../store/actions';
 import Reactotron from 'reactotron-react-native';
 
+import { fetchMultipleSubreddits } from '../../util/requestHelper';
+
 function mapStateToProps (state) {
     return {};
 }
@@ -14,7 +16,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
     return {
         addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
-        resetState: () => dispatch(actions.resetState())
+        resetState: () => dispatch(actions.resetState()),
+        multiFetch: (subs) => fetchMultipleSubreddits(subs, dispatch),
     };
 }
 
@@ -33,9 +36,7 @@ class DevPanel extends Component {
     }
 
     logAsyncState = () => {
-        loadStateFromMemory((obj) => {
-            Reactotron.log({ message: 'Currently in memory', value: obj });
-        });
+        this.props.multiFetch(['legaladvice', 'personalFinance', 'sysadmin']);
     }
 
     render () {
