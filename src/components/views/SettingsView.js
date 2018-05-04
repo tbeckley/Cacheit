@@ -5,6 +5,8 @@ import DevPanel from '../dev/DevPanel';
 import actions from '../../store/actions';
 import Well from '../Well';
 
+import doTheThing from '../../util/test_file';
+
 function mapStateToProps(state) {
     return {
         settings: state.settings
@@ -18,6 +20,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 class SettingsView extends Component {
+    constructor() {
+        super();
+        doTheThing();
+    }
+
     tryToggleBackgroundTask = (value) => {
         if(Platform.OS === 'ios' || Platform.OS === 'android' || __DEV__) {
             this.props.toggleBackgroundTask(value);

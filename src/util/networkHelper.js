@@ -16,7 +16,7 @@ const requestOptions = {
 
 // Since I'm only fetching to reddit, I don't have to exclude other sites!
 
-//export const makeRequest = _makeRequest;
+// export const makeRequest = _makeRequest;
 export const makeRequest = _makeRequest;
 async function _makeRequest (url, onFailure) {
     let failure = failureTypes.OFFLINE;
