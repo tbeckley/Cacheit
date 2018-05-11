@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, Switch, Platform, TextInput } from 'react-native';
+import TBNumInput from '../TBNumInput';
+import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 import DevPanel from '../dev/DevPanel';
 import actions from '../../store/actions';
@@ -13,14 +16,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setBackgroundTaskProperty: key => value => dispatch(actions.setBackgroundProperty(key, value))
+        setBackgroundTaskProperty: key => value => dispatch(actions.setBackgroundProperty(key, value)),
     };
 }
 
 class SettingsView extends Component {
     tryEnableBackgroundTask = (value) => {
         if(Platform.OS === 'ios' || Platform.OS === 'android' || __DEV__) {
-            this.props.setBackgroundTaskProperty('isEnabled', value);
+            this.props.setBackgroundTaskProperty('isEnabled')(value);
         }
         else {
             alert('Background task not available on this platform'); // eslint-disable-line
@@ -53,10 +56,18 @@ class SettingsView extends Component {
                             </View>
                             <View style={styles.row}>
                                 <Text>Fetch this many subreddits</Text>
-                                <TextInput value={backgroundTask.subredditsToFetch}
-                                    keyboardType='numeric'
-                                    onChangeText ={setBackgroundTaskProperty('subredditsToFetch')}
-                                    style={styles.numInput} />
+                                <TBNumInput value={backgroundTask.subredditsToFetch}
+                                    onChangeNum={setBackgroundTaskProperty('subredditsToFetch')}
+                                    style={styles.numInput}
+                                    max={10}
+                                    min={0} />
+                            </View>
+                            <View style={styles.row}>
+                                <Text>Background Task Interval (Seconds) (X>900)</Text>
+                                <TBNumInput value={backgroundTask.interval}
+                                    onChangeNum={setBackgroundTaskProperty('interval')}
+                                    style={styles.numInput}
+                                    min={900} />
                             </View>
                         </View>
                     }
@@ -89,8 +100,13 @@ const styles = StyleSheet.create({
     },
     numInput: {
         marginRight: 9,
-        width: 47,
+        width: 55,
     }
 });
+
+SettingsView.propTypes = {
+    setBackgroundTaskProperty: PropTypes.func,
+    backgroundTask: PropTypes.object,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);
