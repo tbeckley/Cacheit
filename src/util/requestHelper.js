@@ -4,24 +4,12 @@ import { parseSubreddit } from './responseHelper';
 import { failureTypes } from '../constants';
 import actions from '../store/actions';
 
-import _ from 'underscore';
-
 const defaultCount = 25;
 const getURL = (subredditName, count = defaultCount) => `https://www.reddit.com/r/${subredditName}/hot.json?limit=${count - 2}`;
 
 export function fetchSubreddit(subreddit, dispatch) {
     _fetchSingleSubreddit(subreddit, dispatch).then(posts => {
         dispatch(actions.addSubredditData(subreddit, posts));
-    });
-}
-
-export function fetchMultipleSubreddits (subreddits, dispatch) {
-
-    const promises = subreddits.map(name => _fetchSingleSubreddit(name));
-
-    Promise.all(promises).then(values => {
-        const a = values;
-        debugger;
     });
 }
 

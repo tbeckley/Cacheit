@@ -82,7 +82,7 @@ namespace Cacheit
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = false;
+                // this.DebugSettings.EnableFrameRateCounter = false;
             }
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =

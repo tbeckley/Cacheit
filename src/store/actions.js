@@ -15,9 +15,9 @@ const actions = {
         payload: { subreddit, posts }
     }),
     // SETTINGS
-    toggleBackgroundTask: (value) => ({
-        type: actionTypes.TOGGLE_BACKGROUND_TASK,
-        payload: value
+    setBackgroundProperty: (key, value) => ({
+        type: actionTypes.SET_BACKGROUND_TASK_PROPERTY,
+        payload: { key, value }
     }),
     // ADMIN
     replaceState: (state) => ({

@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
 import { failureTypes, limits } from '../constants';
-import _ from './underscoreExtension';
 
 const always_on_url = 'https://www.httpbin.org/ip';
 

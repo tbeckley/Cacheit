@@ -7,17 +7,18 @@ import { loadStateFromMemory } from '../../util/storageHelper';
 import actions from '../../store/actions';
 import Reactotron from 'reactotron-react-native';
 
-import { fetchMultipleSubreddits } from '../../util/requestHelper';
+import {doTheThing} from '../../util/backgroundHelper';
 
 function mapStateToProps (state) {
-    return {};
+    return {
+        state
+    };
 }
 
 function mapDispatchToProps (dispatch) {
     return {
         addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
         resetState: () => dispatch(actions.resetState()),
-        multiFetch: (subs) => fetchMultipleSubreddits(subs, dispatch),
     };
 }
 
@@ -36,7 +37,7 @@ class DevPanel extends Component {
     }
 
     logAsyncState = () => {
-        this.props.multiFetch(['legaladvice', 'personalFinance', 'sysadmin']);
+        doTheThing(this.props.state);
     }
 
     render () {

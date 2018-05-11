@@ -13,7 +13,7 @@ export const defaultState = {
             fetchOverCellular: false,
             fetchOnBattery: true,
             interval: 1500,
-            toFetch: 3,
+            subredditsToFetch: 3,
         }
     },
 };

@@ -19,10 +19,9 @@ export function subreddits (state = defaultState.subreddits, action) {
 
 export function settings (state = defaultState.settings, action) {
     switch(action.type) {
-        case actionTypes.TOGGLE_BACKGROUND_TASK:
-            return R.assocPath(['backgroundTask', 'isEnabled'], action.payload, state);
+        case actionTypes.SET_BACKGROUND_TASK_PROPERTY:
+            return R.assocPath(['backgroundTask', action.payload.key], action.payload.value, state);
         default:
             return state;
     }
-    return state;
 }
