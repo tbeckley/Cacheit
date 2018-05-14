@@ -1,42 +1,54 @@
 import R from 'ramda';
-import { makeRequest } from './networkHelper';
+import { makeRequest, connectivityCheck } from './networkHelper';
 import { parseSubreddit } from './responseHelper';
-import { failureTypes } from '../constants';
+import { networkConnectivityTypes } from '../constants';
 import actions from '../store/actions';
 
 const defaultCount = 25;
 const getURL = (subredditName, count = defaultCount) => `https://www.reddit.com/r/${subredditName}/hot.json?limit=${count - 2}`;
 
-export function fetchSubreddit(subreddit, dispatch) {
-    _fetchSingleSubreddit(subreddit, dispatch).then(posts => {
-        dispatch(actions.addSubredditData(subreddit, posts));
-    });
-}
-
-const myFunc = async val => {
-    return setTimeout(() => `${val}Finished`, 100);
-};
-
-function _fetchSingleSubreddit(subreddit) {
-    const name = (typeof subreddit === 'string') ? subreddit : subreddit.name;
-    const fetchedUTC = subreddit.fetchedUTC || null;
-
-    function onSuccess (data) {
-        const getValidData = R.filter(R.propSatisfies(R.lte(fetchedUTC), 'created_utc')); // Get posts submitted since I last requested
+function onSuccess (lastFetched) {
+    return function (data) {
+        const getValidData = R.filter(R.propSatisfies(R.lte(lastFetched), 'created_utc')); // Get posts submitted since I last requested
         return getValidData(parseSubreddit(data)); // Get proper data from body
-    }
-
-    function onFailure(reason, url) {
-        // TODO: Handle intelligent error reporting
-        switch (reason) {
-            case failureTypes.OFFLINE:      console.log(`Offline at: ${new Date()}`); // eslint-disable-line
-                                            break;
-            case failureTypes.SITE_DOWN:    console.log(`Site ${url} is down at: ${new Date()}`); // eslint-disable-line
-                                            break;
-            case failureTypes.OTHER:
-            default:                        console.log('Other Error'); // eslint-disable-line
-        }
-    }
-
-    return makeRequest(getURL(name), onFailure).then(onSuccess);
+    };
 }
+
+// TODO
+function onFailure(reason, url) {
+    // TODO: Handle intelligent error reporting
+    switch (reason) {
+        case networkConnectivityTypes.OFFLINE:      console.log(`Offline at: ${new Date()}`); // eslint-disable-line
+                                        break;
+        case networkConnectivityTypes.SITE_DOWN:    console.log(`Site ${url} is down at: ${new Date()}`); // eslint-disable-line
+                                        break;
+        case networkConnectivityTypes.OTHER:
+        default:                        console.log('Other Error'); // eslint-disable-line
+    }
+}
+
+function addData(dispatch, subreddit) {
+    return function(posts) {
+        dispatch(actions.addSubredditData(subreddit, posts));
+    };
+}
+
+export function fetchSubreddit(dispatch, subredditData) {
+    if(Array.isArray(subredditData)) {
+        return subredditData.map(sub => _fetchSubreddit(dispatch, sub));
+    }
+    else {
+        return _fetchSubreddit(dispatch, subredditData);
+    }
+}
+
+function _fetchSubreddit(dispatch, subreddit) {
+    const { name, lastFetched } = subreddit;
+    return makeRequest(getURL(name), onFailure)
+            .then(onSuccess(lastFetched))
+            .then(addData(dispatch, name))
+            .then(R.always(subreddit.name))
+            .catch(R.F);
+             // PROMISE - Resolves to name if success or false if failure
+}
+

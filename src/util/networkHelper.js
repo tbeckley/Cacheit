@@ -1,5 +1,6 @@
+import R from 'ramda';
 import { Platform } from 'react-native';
-import { failureTypes, limits } from '../constants';
+import { networkConnectivityTypes, limits } from '../constants';
 
 const always_on_url = 'https://www.httpbin.org/ip';
 
@@ -13,18 +14,9 @@ const requestOptions = {
     })
 };
 
-// Since I'm only fetching to reddit, I don't have to exclude other sites!
-
-// export const makeRequest = _makeRequest;
+// Make request and return json results - I could and should throttle this later
 export const makeRequest = _makeRequest;
-async function _makeRequest (url, onFailure) {
-    let failure = failureTypes.OFFLINE;
-    try {
-        await fetch(always_on_url);
-        failure = failureTypes.SITE_DOWN;
-        return fetch(url).then(response => response.json());
-    }
-    catch(err) {
-        onFailure(failure, url);
-    }
+
+function _makeRequest (url) {
+    return fetch(url).then(response => response.json()); // PROMISE
 }

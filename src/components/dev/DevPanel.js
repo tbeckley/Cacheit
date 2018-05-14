@@ -7,11 +7,14 @@ import { loadStateFromMemory } from '../../util/storageHelper';
 import actions from '../../store/actions';
 import Reactotron from 'reactotron-react-native';
 
-import {doTheThing} from '../../util/backgroundHelper';
+import { fetchSubreddit } from '../../util/requestHelper';
+
+import backgroundTask from '../../util/backgroundHelper';
 
 function mapStateToProps (state) {
     return {
-        state
+        state,
+        getState: () => state,
     };
 }
 
@@ -19,6 +22,7 @@ function mapDispatchToProps (dispatch) {
     return {
         addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
         resetState: () => dispatch(actions.resetState()),
+        dispatch,
     };
 }
 
@@ -37,7 +41,8 @@ class DevPanel extends Component {
     }
 
     logAsyncState = () => {
-        doTheThing(this.props.state);
+        const { getState, dispatch } = this.props;
+        backgroundTask({ getState, dispatch });
     }
 
     render () {

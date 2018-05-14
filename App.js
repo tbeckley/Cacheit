@@ -8,11 +8,18 @@ import configureStore from './src/store/configureStore';
 import { loadStateFromMemory } from './src/util/storageHelper';
 import actions from './src/store/actions.js';
 
+import backgroundTask from './src/util/backgroundHelper';
+
 const store = configureStore();
 loadStateFromMemory(state => { store.dispatch(actions.replaceState(state)); });
 
 export default class App extends Component {
   componentDidMount () {
+    if(Platform.OS === 'android' || Platform.OS === 'ios') {
+      const BackgroundTask = require('react-native-background-task');
+      BackgroundTask.define(async () => await backgroundTask(store));
+      BackgroundTask.schedule();
+    }
   }
 
   render() {

@@ -1,6 +1,7 @@
-export const failureTypes = {
+export const networkConnectivityTypes = {
     OFFLINE: 'failure_offline',
     SITE_DOWN: 'site_down',
+    AVAILABLE: 'available',
     OTHER: 'other',
 };
 
