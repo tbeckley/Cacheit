@@ -5922,9 +5922,9 @@ react-native-background-task@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/react-native-background-task/-/react-native-background-task-0.2.1.tgz#9d110ed14b245e0d8b9ec8114ce24b33ddda65de"
 
-react-native-battery@^0.1.15:
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/react-native-battery/-/react-native-battery-0.1.15.tgz#6ff69305bb56b117ed58dae02d006f0118899c50"
+react-native-device-info@^0.21.5:
+  version "0.21.5"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.21.5.tgz#99478a2d68182e012297f2d63f2bd1b788106dee"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
