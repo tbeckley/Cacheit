@@ -4,8 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.transistorsoft.rnbackgroundfetch.RNBackgroundFetchPackage;
-import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -28,9 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNDeviceInfo(),
-            new RNBackgroundFetchPackage(),
-            new BackgroundTaskPackage(),
-            new VectorIconsPackage(),
+            new VectorIconsPackage()
       );
     }
 
@@ -49,6 +45,5 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    BackgroundTaskPackage.useContext(this);
   }
 }

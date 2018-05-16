@@ -16,9 +16,8 @@ loadStateFromMemory(state => { store.dispatch(actions.replaceState(state)); });
 export default class App extends Component {
   componentDidMount () {
     if(Platform.OS === 'android' || Platform.OS === 'ios') {
-      const BackgroundTask = require('react-native-background-task');
-      BackgroundTask.define(async () => await backgroundTask(store));
-      BackgroundTask.schedule();
+      // BackgroundTask.define(async () => await backgroundTask(store));
+      // BackgroundTask.schedule();
     }
   }
 
