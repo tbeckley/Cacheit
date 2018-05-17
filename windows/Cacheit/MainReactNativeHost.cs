@@ -1,7 +1,5 @@
 using ReactNative;
 using ReactNative.Modules.Core;
-using ReactNative;
-using RNDeviceInfo;
 using RNDeviceInfo;
 using ReactNative.Shell;
 using System.Collections.Generic;
@@ -27,8 +25,6 @@ namespace Cacheit
         protected override List<IReactPackage> Packages => new List<IReactPackage>
         {
             new MainReactPackage(),
-            new MainReactPackage(),
-            new RNDeviceInfoPackage(),
             new RNDeviceInfoPackage(),
         };
     }
