@@ -6,11 +6,8 @@ import { fetchSubreddit } from '../util/requestHelper';
 
 const getSubredditsToFetch = (toTake, subreddits) => R.map(R.pick('name', 'lastFetched'), R.take(toTake,R.sortBy(R.prop('lastFetched'), subreddits)));
 
-
 function canInvokeBackgroundTask(backgroundTask) {
-    const canRunCell = backgroundTask.fetchOverCellular || NetInfo.getConnectionInfo().then(val => {
-        debugger;
-        return val; }).then(R.pipe(R.prop('type'), R.equals('wifi'))).catch(R.F);
+    const canRunCell = backgroundTask.fetchOverCellular || NetInfo.getConnectionInfo().then(R.pipe(R.prop('type'), R.equals('wifi'))).catch(R.F);
     const canRunPower = backgroundTask.fetchOnBattery || DeviceInfo.getBatteryLevel().then(R.prop('charging')).catch(R.F);
     return Promise.all([canRunCell, canRunPower]).then(R.all(Boolean)).catch(R.F); // Pair of promises
 }

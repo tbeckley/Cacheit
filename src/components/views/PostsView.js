@@ -19,7 +19,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
     return  {
-        updateSubreddit: () => fetchSubreddit(dispatch, ownProps.subreddit),
+        updateSubreddit: (sub) => fetchSubreddit(dispatch, sub)
     };
 }
 
@@ -30,7 +30,7 @@ class PostsView extends Component {
 
     componentDidMount() {
         const { updateSubreddit, autoLoadPosts } = this.props;
-        if(autoLoadPosts) updateSubreddit();
+        if(autoLoadPosts) updateSubreddit(this.props.subreddit);
     }
 
     getEmptyPage = () => {

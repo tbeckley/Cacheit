@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
 export default class DevButton extends Component {
     constructor(props) {
@@ -23,6 +24,11 @@ export default class DevButton extends Component {
         );
     }
 }
+
+DevButton.propTypes = {
+    theme: PropTypes.object,
+    onPress: PropTypes.func
+};
 
 const globalStyle = StyleSheet.create({
     obj: {

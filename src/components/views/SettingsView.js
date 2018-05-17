@@ -121,6 +121,7 @@ SettingsView.propTypes = {
     setBackgroundTaskProperty: PropTypes.func,
     backgroundTask: PropTypes.object,
     autoLoad: PropTypes.object,
+    setAutoLoadProperty: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);

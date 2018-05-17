@@ -26,6 +26,10 @@ export default class FullColour extends Component {
     }
 }
 
+FullColour.propTypes = {
+    colours: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
+};
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

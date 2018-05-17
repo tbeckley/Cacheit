@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import DevButton from './DevButton';
+import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { loadStateFromMemory } from '../../util/storageHelper';
 import actions from '../../store/actions';
-import Reactotron from 'reactotron-react-native';
 
+import DevButton from './DevButton';
+
+import { loadStateFromMemory } from '../../util/storageHelper';
 import { fetchSubreddit } from '../../util/requestHelper';
-
 import backgroundTask from '../../util/backgroundHelper';
 
 function mapStateToProps (state) {
@@ -52,6 +52,13 @@ class DevPanel extends Component {
                 </View>);
     }
 }
+
+DevPanel.propTypes = {
+    addSub: PropTypes.func,
+    state: PropTypes.object,
+    dispatch: PropTypes.func,
+    resetState: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
     containerStyle: {

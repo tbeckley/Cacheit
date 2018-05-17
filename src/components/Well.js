@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'Prop-Types';
 
 export default class Well extends Component {
     render() {
@@ -15,6 +16,11 @@ export default class Well extends Component {
         );
     }
 }
+
+Well.propTypes = {
+    children: PropTypes.any,
+    title: PropTypes.string
+};
 
 const styles = StyleSheet.create({
     wellContainer: {

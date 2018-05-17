@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+
 import { withNavigation } from 'react-navigation';
+import { RouteNames } from '../nav/routes';
 
 import TBIcon from './TBIcon';
-import { RouteNames } from '../nav/routes';
 
 class SettingsButton extends Component {
 
@@ -16,6 +18,10 @@ class SettingsButton extends Component {
         return (<TBIcon style={styles} name={'gear'} onPress={this.navToSettings} />);
     }
 }
+
+SettingsButton.propTypes = {
+    navigation: PropTypes.object,
+};
 
 const styles = {
     marginRight: 15,

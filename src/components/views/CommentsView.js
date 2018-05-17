@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 import R from 'ramda';
 
@@ -28,6 +30,11 @@ class CommentsView extends Component {
         );
     }
 }
+
+CommentsView.propTypes = {
+    post: PropTypes.object,
+    subredditName: PropTypes.string
+};
 
 const styles = StyleSheet.create({
     container: {
