@@ -11,9 +11,13 @@ export const defaultState = {
             isEnabled: false,
             fetchComments: false,
             fetchOverCellular: false,
-            fetchOnBattery: true,
+            fetchOnBattery: false,
             interval: 1500,
             subredditsToFetch: 3,
+        },
+        autoLoad: {
+            autoLoadPosts: false,
+            autoLoadComments: false,
         }
     },
 };

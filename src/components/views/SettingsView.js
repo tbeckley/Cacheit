@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Switch, Platform, TextInput } from 'react-native';
+import { View, StyleSheet, Text, Switch, Platform, TextInput, Picker } from 'react-native';
 import TBNumInput from '../TBNumInput';
 import PropTypes from 'prop-types';
 
@@ -10,13 +10,15 @@ import Well from '../Well';
 
 function mapStateToProps(state) {
     return {
-        backgroundTask: state.settings.backgroundTask
+        backgroundTask: state.settings.backgroundTask,
+        autoLoad: state.settings.autoLoad
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         setBackgroundTaskProperty: key => value => dispatch(actions.setBackgroundProperty(key, value)),
+        setAutoLoadProperty: key => value => dispatch(actions.setAutoLoadProperty(key,value)),
     };
 }
 
@@ -30,13 +32,10 @@ class SettingsView extends Component {
         }
     }
     render() {
-        const { backgroundTask, setBackgroundTaskProperty } = this.props;
+        const { backgroundTask, autoLoad, setAutoLoadProperty, setBackgroundTaskProperty } = this.props;
         return(
             <View style={styles.container}>
-                <Text style={styles.text}>
-                    This is a settings page. It would presumably do something if it came to that.
-                </Text>
-                <Well title={'Background Task'} >
+                <Well title={'Background Task'}>
                     <View style={styles.row}>
                         <Text>Enable background fetching</Text>
                         <Switch value={backgroundTask.isEnabled} onValueChange={this.tryEnableBackgroundTask} style={styles.switch} />
@@ -71,6 +70,20 @@ class SettingsView extends Component {
                             </View>
                         </View>
                     }
+                </Well>
+                <Well title={'Auto Load'}>
+                    <View style={styles.row}>
+                        <Text>Automatally fetch posts when you open a subreddit</Text>
+                        <Switch value={autoLoad.autoLoadPosts}
+                            onValueChange={setAutoLoadProperty('autoLoadPosts')}
+                            style={styles.switch} />
+                    </View>
+                    <View style={styles.row}>
+                        <Text>Automatally fetch comments when you open a post</Text>
+                            <Switch value={autoLoad.autoLoadComments}
+                                onValueChange={setAutoLoadProperty('autoLoadComments')}
+                                style={styles.switch} />
+                    </View>
                 </Well>
                 { __DEV__ && <DevPanel /> }
             </View>
@@ -107,6 +120,7 @@ const styles = StyleSheet.create({
 SettingsView.propTypes = {
     setBackgroundTaskProperty: PropTypes.func,
     backgroundTask: PropTypes.object,
+    autoLoad: PropTypes.object,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsView);

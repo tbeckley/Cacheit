@@ -19,6 +19,10 @@ const actions = {
         type: actionTypes.SET_BACKGROUND_TASK_PROPERTY,
         payload: { key, value }
     }),
+    setAutoLoadProperty: (key, value) => ({
+        type: actionTypes.SET_AUTO_LOAD_PROPERTY,
+        payload: { key, value }
+    }),
     // ADMIN
     replaceState: (state) => ({
         type: actionTypes.REPLACE_STATE,

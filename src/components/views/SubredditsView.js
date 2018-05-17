@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet,
-        Text, TouchableOpacity, TextInput, Switch } from 'react-native';
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, Switch } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { RouteNames } from '../../nav/routes.js';
 import actions from '../../store/actions';
+
 import { fetchSubreddit } from '../../util/requestHelper';
 import { getTimeAgo } from '../../util/timeHelper';
-
 
 import SettingsButton from '../SettingsButton';
 
@@ -20,7 +20,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addSub: (sub, comments) => dispatch(actions.addSubreddit(sub, comments)),
-        fetchSub: sub => fetchSubreddit(sub, dispatch),
+        fetchSub: sub => fetchSubreddit(dispatch, sub),
     };
 }
 
@@ -38,12 +38,9 @@ class SubredditsView extends Component {
         this.state = { subName: '' };
     }
 
-    goToPosts = (subredditName) => {
-        const { navigation, fetchSub } = this.props;
-        if (navigation) {
-            fetchSub(subredditName);
-            navigation.navigate({ routeName: RouteNames.POSTS, params: { subredditName } });
-        }
+    goToPosts = (subreddit) => {
+        const { navigation } = this.props;
+        navigation.navigate({ routeName: RouteNames.POSTS, params: { subredditName: subreddit.name } });
     }
 
     generateCard = (subreddit, key) => {
@@ -54,7 +51,7 @@ class SubredditsView extends Component {
         };
 
         return (
-            <TouchableOpacity key={key} style={[styles.cardStyle, backgroundColorStyle]} onPress={() => this.goToPosts(subreddit.name)}>
+            <TouchableOpacity key={key} style={[styles.cardStyle, backgroundColorStyle]} onPress={() => this.goToPosts(subreddit)}>
                 <Text style={styles.subredditName}>/r/{name}</Text>
                 <Text style={styles.subredditCaption}>{`Last updated: ${getTimeAgo(lastFetched)}, Unread Posts: ${posts.length}`}</Text>
             </TouchableOpacity>
@@ -71,6 +68,7 @@ class SubredditsView extends Component {
     }
 
     render() {
+        const { subreddits } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.addSubredditContainer}>
@@ -87,12 +85,18 @@ class SubredditsView extends Component {
                     </TouchableOpacity>
                 </View>
                 <ScrollView style={styles.container}>
-                    {this.props.subreddits.map(this.generateCard)}
+                    {subreddits.map(this.generateCard)}
                 </ScrollView>
             </View>
         );
     }
 }
+
+SubredditsView.propTypes = {
+    navigation: PropTypes.object,
+    addSub: PropTypes.func,
+    subreddits: PropTypes.arrayOf(PropTypes.object),
+};
 
 const styles = StyleSheet.create({
     container: {

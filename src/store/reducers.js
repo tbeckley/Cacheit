@@ -21,6 +21,8 @@ export function settings (state = defaultState.settings, action) {
     switch(action.type) {
         case actionTypes.SET_BACKGROUND_TASK_PROPERTY:
             return R.assocPath(['backgroundTask', action.payload.key], action.payload.value, state);
+        case actionTypes.SET_AUTO_LOAD_PROPERTY:
+            return R.assocPath(['autoLoad', action.payload.key], action.payload.value, state);
         default:
             return state;
     }

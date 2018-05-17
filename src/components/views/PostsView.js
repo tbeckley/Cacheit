@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { RouteNames } from '../../nav/routes.js';
 import R from 'ramda';
+
+import { fetchSubreddit } from '../../util/requestHelper';
 
 function mapStateToProps(state, ownProps) {
     const subredditName = ownProps.navigation.state.params.subredditName;
 
     return {
         subreddit: R.find(R.propEq('name', subredditName), state.subreddits),
+        autoLoadPosts: state.settings.autoLoad.autoLoadPosts
+    };
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+    return  {
+        updateSubreddit: () => fetchSubreddit(dispatch, ownProps.subreddit),
     };
 }
 
@@ -17,8 +28,12 @@ class PostsView extends Component {
         title: `/r/${navigation.state.params.subredditName}`,
     });
 
+    componentDidMount() {
+        const { updateSubreddit, autoLoadPosts } = this.props;
+        if(autoLoadPosts) updateSubreddit();
+    }
+
     getEmptyPage = () => {
-        // Empty page here
         const containerobj = { flex: 1, justifyContent: 'center', alignItems: 'center' };
         return <View style={containerobj}><Text style={styles.postName}>Empty</Text></View>;
     }
@@ -61,6 +76,13 @@ class PostsView extends Component {
     }
 }
 
+PostsView.propTypes = {
+    updateSubreddit: PropTypes.func,
+    autoLoadPosts: PropTypes.bool,
+    subreddit: PropTypes.object,
+    navigation: PropTypes.object,
+};
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -75,4 +97,4 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
     }
 });
-export default connect(mapStateToProps)(PostsView);
+export default connect(mapStateToProps, mapDispatchToProps)(PostsView);

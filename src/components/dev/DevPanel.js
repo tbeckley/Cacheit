@@ -14,7 +14,6 @@ import backgroundTask from '../../util/backgroundHelper';
 function mapStateToProps (state) {
     return {
         state,
-        getState: () => state,
     };
 }
 
@@ -25,7 +24,6 @@ function mapDispatchToProps (dispatch) {
         dispatch,
     };
 }
-
 class DevPanel extends Component {
 
     makeid = () => {
@@ -40,15 +38,15 @@ class DevPanel extends Component {
         this.props.addSub(this.makeid());
     }
 
-    logAsyncState = () => {
-        const { getState, dispatch } = this.props;
-        backgroundTask({ getState, dispatch });
+    green = () => {
+        const { state, dispatch } = this.props;
+        backgroundTask(state, dispatch);
     }
 
     render () {
         return (<View style={styles.containerStyle}>
                     <Text style={styles.fontStyle}> Dev Panel </Text>
-                    <DevButton theme='grass' onPress={this.logAsyncState} />
+                    <DevButton theme='grass' onPress={this.green} />
                     <DevButton theme='nuke' onPress={this.props.resetState} />
                     <DevButton theme='magic' onPress={this.addRandomSub} />
                 </View>);

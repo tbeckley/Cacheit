@@ -2,18 +2,23 @@ import R from 'ramda';
 import actions from '../store/actions';
 import { Platform, NetInfo } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import { fetchSubreddit } from '../util/requestHelper';
 
-const getSubredditsToFetch = (subreddits, toTake) => R.map(R.pick('name', 'lastFetched'), R.take(toTake,R.sortBy(R.prop('lastFetched'), subreddits)));
+const getSubredditsToFetch = (toTake, subreddits) => R.map(R.pick('name', 'lastFetched'), R.take(toTake,R.sortBy(R.prop('lastFetched'), subreddits)));
 
-async function backgroundTask(store) {
-    const { dispatch, getState } = store;
-    const { settings: { backgroundTask }, subreddits } = getState();
 
-    const canRunCell = backgroundTask.fetchOverCellular || (await NetInfo.getConnectionInfo()).type === 'wifi';
-    const canRunPower = backgroundTask.fetchOnBattery || await DeviceInfo.getBatteryLevel().then(R.prop('charging')).catch(R.F);
+function canInvokeBackgroundTask(backgroundTask) {
+    const canRunCell = backgroundTask.fetchOverCellular || NetInfo.getConnectionInfo().then(val => {
+        debugger;
+        return val; }).then(R.pipe(R.prop('type'), R.equals('wifi'))).catch(R.F);
+    const canRunPower = backgroundTask.fetchOnBattery || DeviceInfo.getBatteryLevel().then(R.prop('charging')).catch(R.F);
+    return Promise.all([canRunCell, canRunPower]).then(R.all(Boolean)).catch(R.F); // Pair of promises
+}
 
-    if (__DEV__ || (canRunCell && canRunPower)) {
-        const subredditsToFetch = getSubredditsToFetch(subreddits, backgroundTask.subredditsToFetch);
+async function backgroundTask(state, dispatch) {
+    if (state.subreddits.length && __DEV__ || await canInvokeBackgroundTask(state.settings.backgroundTask)) {
+        const toFetch = getSubredditsToFetch(3, state.subreddits);
+        const subreddits = await Promise.all(fetchSubreddit(dispatch, state.subreddits)); // Update subreddits, END BACKGRUND TASK HERE OR WHATEVER
     }
 }
 
