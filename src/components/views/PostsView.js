@@ -19,18 +19,25 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
     return  {
-        updateSubreddit: (sub) => fetchSubreddit(dispatch, sub)
+        _dispatchUpdate: (sub) => fetchSubreddit(dispatch, sub)
     };
 }
 
+function mergeProps(propsFromState, propsFromDispatch, ownProps) {
+    return {
+        ...propsFromState,
+        ...ownProps,
+        update: () => propsFromDispatch._dispatchUpdate(propsFromState.subreddit),
+    };
+}
 class PostsView extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: `/r/${navigation.state.params.subredditName}`,
     });
 
     componentDidMount() {
-        const { updateSubreddit, autoLoadPosts } = this.props;
-        if(autoLoadPosts) updateSubreddit(this.props.subreddit);
+        const { autoLoadPosts, update } = this.props;
+        if(autoLoadPosts) update();
     }
 
     getEmptyPage = () => {
@@ -77,7 +84,7 @@ class PostsView extends Component {
 }
 
 PostsView.propTypes = {
-    updateSubreddit: PropTypes.func,
+    update: PropTypes.func,
     autoLoadPosts: PropTypes.bool,
     subreddit: PropTypes.object,
     navigation: PropTypes.object,
@@ -97,4 +104,4 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
     }
 });
-export default connect(mapStateToProps, mapDispatchToProps)(PostsView);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(PostsView);

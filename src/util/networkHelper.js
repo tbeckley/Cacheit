@@ -18,5 +18,13 @@ const requestOptions = {
 export const makeRequest = _makeRequest;
 
 function _makeRequest (url) {
-    return fetch(url).then(response => response.json()); // PROMISE
+    return fetch(url).then(handleRespone); // PROMISE
+}
+
+function handleRespone(resp) {
+    switch (resp.status) {
+        case 200: return resp.json();
+        case 301: return fetch(resp.headers.map.location[0]).then(handleRespone);
+        default: throw `Unknown response code: ${resp.status}`;
+    }
 }

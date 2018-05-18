@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import PropTypes from 'Prop-Types';
+import PropTypes from 'prop-types';
 
 export default class Well extends Component {
     render() {

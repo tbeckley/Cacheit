@@ -5,17 +5,38 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import R from 'ramda';
 
+import { fetchComments } from '../../util/requestHelper';
+
 function mapStateToProps(state, ownProps) {
     const { subredditName, postName } = ownProps.navigation.state.params;
     const subreddit = R.find(R.propEq('name', subredditName), state.subreddits);
     const post = R.find(R.propEq('name', postName), subreddit.posts);
+
     return {
         post,
-        subredditName,
+        autoLoadComments: state.settings.autoLoad.autoLoadComments,
     };
 }
 
+function mapDisptachToProps(dispatch, ownProps) {
+    return {
+        _dispatchUpdate: (post) => fetchComments(dispatch, post)
+    };
+}
+
+function mergeProps(propsFromState, propsFromDispatch, ownProps) {
+    return {
+        ...propsFromState,
+        ...ownProps,
+        update: () => propsFromDispatch._dispatchUpdate(propsFromState.post)
+    };
+}
 class CommentsView extends Component {
+    componentDidMount() {
+        const { autoLoadComments, update } = this.props;
+        if(autoLoadComments) update();
+    }
+
     render() {
         const { post: { selftext, author, score, title, name }, subredditName } = this.props;
         return(
@@ -33,7 +54,9 @@ class CommentsView extends Component {
 
 CommentsView.propTypes = {
     post: PropTypes.object,
-    subredditName: PropTypes.string
+    subredditName: PropTypes.string,
+    autoLoadComments: PropTypes.bool,
+    update: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -66,4 +89,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps)(CommentsView);
+export default connect(mapStateToProps, mapDisptachToProps, mergeProps)(CommentsView);

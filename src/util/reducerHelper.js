@@ -15,7 +15,7 @@ export const removeByProp = (prop, toRemove, existing) => R.filter(R.pipe(R.prop
 export const addPostsForSubreddit = (sub, postsIn, state) => {
     const index = R.findIndex(R.propSatisfies(equalCaseInsensitive(sub), 'name'), state);
     const replaced = R.evolve({
-        posts: addUniqueByProp('name', postsIn),
+        posts: addUniqueByProp('id', postsIn),
         lastFetched: R.always(Date.now()),
     }, state[index]);
     return R.update(index, replaced, state);

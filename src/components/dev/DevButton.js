@@ -26,7 +26,7 @@ export default class DevButton extends Component {
 }
 
 DevButton.propTypes = {
-    theme: PropTypes.object,
+    theme: PropTypes.string,
     onPress: PropTypes.func
 };
 
