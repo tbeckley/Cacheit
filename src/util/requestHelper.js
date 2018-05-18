@@ -28,8 +28,6 @@ export function fetchSubreddit(dispatch, subredditData) {
 
 const _fetchCommentsURL = (post) => `https://www.reddit.com/r/${post.subreddit}/${post.id}.json`;
 export function fetchComments(dispatch, post) {
-    return makeRequest(_fetchCommentsURL(post)).then(val => {
-        const x = parseComments(val);
-        debugger;
-    });
+    return makeRequest(_fetchCommentsURL(post))
+            .then(parseComments);
 }

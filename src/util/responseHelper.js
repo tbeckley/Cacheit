@@ -15,16 +15,7 @@ export const parseSubreddit = R.pipe(getDataFromResponse, filterOnlySelf, extrac
 const commentDesiredProperties = ['author', 'score', 'id', 'body', 'created_utc', 'depth', 'distinguished'];
 const generateChildren = replies => R.map(cleanComments, R.pathOr([], ['data','children'], replies));
 
-function cleanComments (comment) {
-    const children = generateChildren(comment.data.replies);
-    return R.assoc('comments', children, R.pick(commentDesiredProperties, comment.data));
-}
-
-// const getNewPost = R.pipe(R.head, getDataFromResponse, R.head, extractData);
+const cleanComments = comment => R.assoc('comments', generateChildren(comment.data.replies), R.pick(commentDesiredProperties, comment.data));
 const getNewPost = R.pipe(R.head, getDataFromResponse, extractPostData, R.head);
 const getComments = R.pipe(R.last, getDataFromResponse, R.map(cleanComments));
-const assembleResponse = val => R.assoc('comments', getComments(val), getNewPost(val));
-export const parseComments = post => {
-    const y = assembleResponse(post);
-    return y;
-}
+export const parseComments = val => R.assoc('comments', getComments(val), getNewPost(val));
