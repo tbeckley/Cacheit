@@ -1,5 +1,5 @@
 import R from 'ramda';
-import { makeRequest, connectivityCheck } from './networkHelper';
+import { makeRequest } from './networkHelper';
 import { parseSubreddit } from './responseHelper';
 import { networkConnectivityTypes } from '../constants';
 import actions from '../store/actions';
